@@ -174,6 +174,11 @@ return [
          */
         Cviebrock\EloquentSluggable\ServiceProvider::class,
 
+        /**
+         * https://github.com/RoumenDamianoff/laravel-sitemap
+         */
+        Roumen\Sitemap\SitemapServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
