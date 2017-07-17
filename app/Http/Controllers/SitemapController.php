@@ -24,17 +24,18 @@ class SitemapController extends Controller
         $sitemap->setCache('sitemap.movie', 3600);
 
         $movies = Film::whereType('movie')
-            ->orderBy('title', 'ASC')
-            ->get();
+            ->orderBy('title', 'ASC');
 
-        foreach ($movies as $movie) {
-            $sitemap->add(
-                route('film.view', $movie->slug),
-                $movie->updated_at,
-                0.8,
-                'monthly'
-            );
-        }
+        $movies->chunk(10000, function ($movies) use ($sitemap) {
+            $movies->each(function ($movie) use ($sitemap) {
+                $sitemap->add(
+                    route('film.view', $movie->slug),
+                    $movie->updated_at,
+                    0.8,
+                    'monthly'
+                );
+            });
+        });
 
         return $sitemap->render('xml');
     }
@@ -46,17 +47,19 @@ class SitemapController extends Controller
         $sitemap->setCache('sitemap.series', 3600);
 
         $series = Film::whereType('series')
-            ->orderBy('title', 'ASC')
-            ->get();
+            ->orderBy('title', 'ASC');
 
-        foreach ($series as $tv) {
-            $sitemap->add(
-                route('film.view', $tv->slug),
-                $tv->updated_at,
-                0.8,
-                'monthly'
-            );
-        }
+        $series->chunk(10000, function ($series) use ($sitemap) {
+            $series->each(function ($tv) use ($sitemap) {
+
+                $sitemap->add(
+                    route('film.view', $tv->slug),
+                    $tv->updated_at,
+                    0.8,
+                    'monthly'
+                );
+            });
+        });
 
         $sitemap->render('xml');
     }
