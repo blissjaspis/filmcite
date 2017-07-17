@@ -14,6 +14,10 @@
 Route::get('/quote/random', 'QuoteController@random')->name('quote.latest');
 Route::post('/submit', 'QuoteController@create')->name('quote.create');
 
+Route::get('/sitemap.xml', 'SitemapController@index')->name('sitemap.index');
+Route::get('/sitemap/movie.xml', 'SitemapController@movie')->name('sitemap.movie');
+Route::get('/sitemap/series.xml', 'SitemapController@series')->name('sitemap.series');
+
 Route::get('/', 'FilmController@index')->name('film.index');
 Route::get('/search', 'FilmController@search')->name('film.search');
 Route::get('/random', 'FilmController@random')->name('film.random');
